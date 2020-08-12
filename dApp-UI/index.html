@@ -23,8 +23,8 @@
             }
         });
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        const contract_abi = [{"inputs":[{"internalType":"uint256","name":"x","type":"uint256"}],"name":"set_num","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"reveal_num","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
-        const contract_address = '0xf4DE83bdD4f6C31e01F9f967EDc2E0024f665A92';
+        const contract_abi = []
+        const contract_address = '';
         var contract_inst = web3.eth.contract(contract_abi).at(contract_address);
 
         
