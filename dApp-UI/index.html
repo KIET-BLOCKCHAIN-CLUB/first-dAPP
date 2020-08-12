@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dApp</title>
+</head>
+<body>
+    <input type="text" name="num-enter" id="">
+    <button onclick="set_number()" type="submit">Submit</button>
+    <button onclick="get_num()" type="submit">Retrieve</button>
+    <br>
+    <h1 id="num_out"></h1>
+    <script src="https://raw.githubusercontent.com/ethereum/web3.js/1.x/dist/web3.min.js" type="text/plain"></script>
+    <script>
+        // Set Account 
+        window.addEventListener('load', () => {
+            if (typeof web3 !== 'undefined') {
+                web3 = new Web3(web3.currentProvider);
+            } else {
+                console.log('No web3? You should consider trying MetaMask!');
+                web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+            }
+        });
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        const contract_abi = [{"inputs":[{"internalType":"uint256","name":"x","type":"uint256"}],"name":"set_num","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"reveal_num","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+        const contract_address = '0xf4DE83bdD4f6C31e01F9f967EDc2E0024f665A92';
+        var contract_inst = web3.eth.contract(contract_abi).at(contract_address);
+
+        
+        const get_num = ()=>{
+            contract_inst.reveal_num((err, res) => 
+            {
+                if(!err){
+                    document.querySelector("#num_out").innerText = res;
+                    console.log(res);
+                }
+                else
+                    console.error(err);
+            });
+        }
+
+        const set_number = ()=>{
+            const num = document.querySelector('input').value;
+            contract_inst.set_num(Number(num),(err,res)=>{
+                if(!err){
+                    console.log(res);
+                }else{
+                    console.log(err);
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>
